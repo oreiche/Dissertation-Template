@@ -1,0 +1,11 @@
+\graphicspath{{figures/}}
+
+\ifluatex
+  \usepackage{shellesc}
+\fi
+\usetikzlibrary{external}
+%\tikzset{external/mode=list and make}
+\tikzexternalize[prefix=figures/]
+
+\usepgfplotslibrary{units}
+\pgfplotsset{compat=newest}

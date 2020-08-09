@@ -1,0 +1,90 @@
+%\def\final{}
+%\def\print{}
+
+\input{head/header}
+\input{body/symbols}
+\input{body/acronyms}
+\input{body/glossary}
+\input{body/hyphenation}
+\input{body/headandfoot}
+
+\title{Title}
+\germantitle{Deutscher Titel}
+\author{Forename Surname}
+\subject{Dissertation}
+\placeofbirth{Place of birth}
+\dateofdefense{Date of defense}
+\chairman{Prof.\ Dr.\ Committee Chairman}
+\reviewers{Prof.\ Dr.-Ing.\ J\"urgen Teich\\
+           Prof.\ Dr.\ Co-Examiner}
+\keywords{Keyword1, Keyword2}
+
+\begin{document}
+  \frontmatter
+
+  % Title page
+  \maketitle
+
+  % Quote
+  \input{body/quote}
+
+  % Abstract
+  \input{body/abstract}
+
+  % Acknowledgements
+  \input{body/acknowledgements}
+
+  % Contents
+  \tableofcontents
+
+  % Figures
+  %\listoffigures
+
+  % Tables
+  %\listoftables
+
+  % Listings
+  %\lstlistoflistings
+
+  \mainmatter
+
+  % Main document
+  \input{body/body}
+
+  \appendix
+
+  % Appendix
+  \input{body/appendix}
+
+  \backmatter
+
+  % German title
+  \input{head/germantitle}
+
+  % German abstract
+  \input{body/zusammenfassung}
+
+  % Bibliography
+  \printbibliography[notkeyword=own]
+
+  % Author's own publications
+  \newrefcontext[sorting=ynt]
+  \printbibliography[title={Author's Own Publications}, keyword=own]
+
+  % Symbols
+  \printnoidxglossary[type=symbols, style=dottedlist, sort=def]
+
+  % Glossary
+  %\printnoidxglossary
+
+  % Acronyms
+  \printnoidxglossary[type=acronym, style=dottedlist]
+
+  % Index
+  \printindex
+
+  % Curriculum Vitæ
+  \input{body/cv}
+
+\end{document}
+

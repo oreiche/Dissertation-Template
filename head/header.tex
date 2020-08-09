@@ -1,0 +1,82 @@
+\documentclass[%
+  english,%
+  12pt,%
+  a4paper,%
+  DIV=12, BCOR=2cm,%
+  twoside, open=right, cleardoublepage=empty,%
+  headsepline=true, bibtotoc, idxtotoc, pointlessnumbers,%
+  dvipsnames]{scrbook}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+\usepackage{ifpdf}
+\usepackage{ifluatex}
+
+% Fonts
+\usepackage{lmodern}
+\usepackage[slantedGreek]{mathptmx} % Times       for \rm
+\usepackage[scaled=.90]{helvet}     % Helvetica   for \sf
+\usepackage[scaled=.95]{zi4}        % Inconsolata for \tt
+
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{bm}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{calc}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{xspace}
+\usepackage{scalefnt}
+\usepackage{quotchap}
+\usepackage[inline]{enumitem}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{listings}
+\usepackage[ruled,linesnumbered]{algorithm2e}
+\usepackage{pgf}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{tikz}
+\usepackage{caption}
+\usepackage[caption=false]{subfig}
+\usepackage{url}
+\usepackage{todonotes}
+\usepackage[autostyle]{csquotes}
+\usepackage[%
+  pdfusetitle,%
+  \ifx\print\empty%
+    hidelinks
+  \else%
+    colorlinks
+  \fi]{hyperref}
+\usepackage{cleveref}
+\usepackage[defaultlines=2]{nowidow}
+\usepackage[%
+  style=trad-alpha,
+  backend=biber,
+  mincitenames=1,
+  maxcitenames=3,
+  doi=true,
+  isbn=true]{biblatex}
+\usepackage{scrlayer-scrpage} % Header and footer
+\usepackage{scrhack} % Fixes warnings for listings
+\usepackage{makeidx}
+\usepackage{idxlayout} % Fixes vertical space for index heading in KOMA script
+\usepackage[%
+  toc,
+  indexonlyfirst,
+  style=altlist,
+  acronym=true]{glossaries}
+
+\input{head/fixquotchap}
+
+\input{head/typeset}
+\input{head/graphics}
+\input{head/listings}
+\input{head/bibgraph}
+\input{head/todonotes}
+\input{head/headandfoot}
+\input{head/indexes}
+\input{head/title}
+

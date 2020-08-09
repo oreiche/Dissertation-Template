@@ -1,0 +1,167 @@
+% Match label commands from acronyms package to glossaries package.
+% (Commands mark acronym used, first use produces page number in acronyms list)
+\newcommand{\acresetall}{\glsresetall}
+\newcommand{\ac}[1]{\gls{#1}}
+\newcommand{\acf}[1]{\acrfull{#1}\glsunset{#1}}
+\newcommand{\acs}[1]{\acrshort{#1}\glsunset{#1}}
+\newcommand{\acl}[1]{\acrlong{#1}\glsunset{#1}}
+\newcommand{\acp}[1]{\glspl{#1}}
+\newcommand{\acfp}[1]{\acrfullpl{#1}\glsunset{#1}}
+\newcommand{\acsp}[1]{\acrshortpl{#1}\glsunset{#1}}
+\newcommand{\aclp}[1]{\acrlongpl{#1}\glsunset{#1}}
+\newcommand{\acfi}[1]{\emph{\acrlong{#1}} (\textsc{\acrshort{#1}})\glsunset{#1}}
+\newcommand{\iac}[1]{a \ac{#1}}
+\newcommand{\Iac}[1]{A \ac{#1}}
+\newcommand{\Ac}[1]{\Gls{#1}}
+\newcommand{\Acf}[1]{\Acrfull{#1}\glsunset{#1}}
+\newcommand{\Acs}[1]{\Acrshort{#1}\glsunset{#1}}
+\newcommand{\Acl}[1]{\Acrlong{#1}\glsunset{#1}}
+\newcommand{\Acp}[1]{\Glspl{#1}}
+\newcommand{\Acfp}[1]{\Acrfullpl{#1}\glsunset{#1}}
+\newcommand{\Acsp}[1]{\Acrshortpl{#1}\glsunset{#1}}
+\newcommand{\Aclp}[1]{\Acrlongpl{#1}\glsunset{#1}}
+\newcommand{\Acfi}[1]{\emph{\Acrlong{#1}} (\textsc{\Acrshort{#1}})\glsunset{#1}}
+\newcommand{\iAc}[1]{a \Ac{#1}}
+\newcommand{\IAc}[1]{A \Ac{#1}}
+
+% Don't mark acronym (#1) used when calling command (#2)
+\newcommand{\dontmarkused}[2]{%
+  \ifglsused{#1}{%
+    % Acronym was used before, just call the command
+    #2%
+  }{%
+    % Set used (avoids entry in acronyms list) and reset afterwards
+    \glsunset{#1}%
+    #2%
+    \glsreset{#1}%
+  }}
+
+% Match label commands with star from acronyms package to glossaries package
+% (Commands don't mark acronym used, won't produce page number in acronyms list)
+\usepackage{suffix}
+\WithSuffix\newcommand\acf*[1]{\dontmarkused{#1}{\acf{#1}}}
+\WithSuffix\newcommand\acs*[1]{\dontmarkused{#1}{\acs{#1}}}
+\WithSuffix\newcommand\acl*[1]{\dontmarkused{#1}{\acl{#1}}}
+\WithSuffix\newcommand\acfp*[1]{\dontmarkused{#1}{\acfp{#1}}}
+\WithSuffix\newcommand\acsp*[1]{\dontmarkused{#1}{\acsp{#1}}}
+\WithSuffix\newcommand\aclp*[1]{\dontmarkused{#1}{\aclp{#1}}}
+\WithSuffix\newcommand\acfi*[1]{\dontmarkused{#1}{\acfi{#1}}}
+\WithSuffix\newcommand\ac*[1]{\ifglsused{#1}{\ac{#1}}{\acf*{#1}}}
+\WithSuffix\newcommand\acp*[1]{\ifglsused{#1}{\acp{#1}}{\acfp*{#1}}}
+\WithSuffix\newcommand\iac*[1]{a \ac*{#1}}
+\WithSuffix\newcommand\Iac*[1]{A \ac*{#1}}
+\WithSuffix\newcommand\Acf*[1]{\dontmarkused{#1}{\Acf{#1}}}
+\WithSuffix\newcommand\Acs*[1]{\dontmarkused{#1}{\Acs{#1}}}
+\WithSuffix\newcommand\Acl*[1]{\dontmarkused{#1}{\Acl{#1}}}
+\WithSuffix\newcommand\Acfp*[1]{\dontmarkused{#1}{\Acfp{#1}}}
+\WithSuffix\newcommand\Acsp*[1]{\dontmarkused{#1}{\Acsp{#1}}}
+\WithSuffix\newcommand\Aclp*[1]{\dontmarkused{#1}{\Aclp{#1}}}
+\WithSuffix\newcommand\Acfi*[1]{\dontmarkused{#1}{\Acfi{#1}}}
+\WithSuffix\newcommand\Ac*[1]{\ifglsused{#1}{\Ac{#1}}{\Acf*{#1}}}
+\WithSuffix\newcommand\Acp*[1]{\ifglsused{#1}{\Acp{#1}}{\Acfp*{#1}}}
+\WithSuffix\newcommand\iAc*[1]{a \Ac*{#1}}
+\WithSuffix\newcommand\IAc*[1]{A \Ac*{#1}}
+
+\makeatletter
+\@ifpackageloaded{biblatex}{%
+% Borrowing contents of \MakeSentenseCase{} command from BibLaTeX:
+% Transforms all characters to lower case except those that were escaped using
+% curly braces {}, similar to titles in BibLaTeX entries.
+\newrobustcmd{\MakeLowercaseEscaped}{%
+  % Prevent \MakeSentenseCase{} from capitalizing first character
+  \let\blx@mksc@endhead\relax%
+  \blx@mksc@ii}
+}{%
+% Fallback: Do not transform to lower case!
+\newcommand\MakeLowercaseEscaped[1]{#1}
+}
+\makeatother
+
+% Match newacro command from acronyms package to glossaries package.
+% If BibLaTeX package is loaded, the label expands to lower case in document
+% body but remains untouched in acronyms list. Proper nouns can be escaped using
+% curly braces {} similar to titles in BibLaTeX entries.
+\usepackage{xargs}
+\newcommandx{\newacro}[4][2=\empty, 4=\empty]{%
+  \ifx#4\empty% no plural description
+    \ifx#2\empty% no formated acronym
+      \newacronym[sort={#1},description={#3}]{#1}{#1}{{\MakeLowercaseEscaped{#3}}}%
+    \else% formated acronym
+      \newacronym[sort={#1},description={#3}]{#1}{#2}{{\MakeLowercaseEscaped{#3}}}%
+    \fi%
+  \else% plural description
+    \ifx#2\empty% no formated acronym
+      \newacronym[sort={#1},description={#3},longplural={\MakeLowercaseEscaped{#4}}]{#1}{#1}{{\MakeLowercaseEscaped{#3}}}%
+    \else% formated acronym
+      \newacronym[sort={#1},description={#3},longplural={\MakeLowercaseEscaped{#4}}]{#1}{#2}{{\MakeLowercaseEscaped{#3}}}%
+    \fi%
+  \fi}
+
+% Match commands from listofsymbols package to glossaries package
+\newglossary[slg]{symbols}{sym}{sbl}{List of Symbols\ifx\final\undefined\ (draft)\fi}
+\newcommand{\newsym}[3][\empty]{%
+  \newglossaryentry{sym:#2}{%
+    type=symbols,%
+    name=\ensuremath{#3},%
+    description={\ifx\final\undefined\texttt{\textbackslash #2} -- \fi#1}%
+  }
+  \expandafter\newcommand\expandafter{\csname#2\endcsname}%
+    {{\gls{sym:#2}}\xspace}
+}
+
+% New style for acronyms and symbols
+\newglossarystyle{dottedlist}{%
+  \renewenvironment{theglossary}%
+    {\begin{description}[labelwidth=2.5cm, itemsep=0pt]}{\end{description}}%
+  \renewcommand*{\glossaryheader}{}%
+  \renewcommand*{\glsgroupheading}[1]{}%
+  \renewcommand*{\glossentry}[2]{%
+    \item[\glsentryitem{##1}%
+          \glstarget{##1}{\glossentryname{##1}}]%
+       \glossentrydesc{##1}\dotfill ##2}%
+  \renewcommand*{\subglossentry}[3]{%
+    \glssubentryitem{##2}%
+    \glstarget{##2}{\strut}\space
+    \glossentrydesc{##2}\dotfill ##3.}%
+  \renewcommand*{\glsgroupskip}{\ifglsnogroupskip\else\indexspace\fi}%
+}
+
+% Enable acronyms and glossary without makeindex
+\makenoidxglossaries
+
+% Different headings for first index page
+\renewcommand*{\indexpagestyle}{scrplain}
+\makeindex
+
+% Do not use colors for any glossary link
+\makeatletter
+\newcommand*{\glsplainhyperlink}[2]{%
+  \colorlet{currenttext}{.}% store current text color
+  \colorlet{currentlink}{\@linkcolor}% store current link color
+  \hypersetup{linkcolor=currenttext}% set link color
+  \hyperlink{#1}{#2}%
+  \hypersetup{linkcolor=currentlink}% reset to default
+}
+\let\@glslink\glsplainhyperlink
+\makeatother
+
+% Write index style file (taken from KOMA-Script-Anleitung)
+\usepackage{filecontents}
+\begin{filecontents}{\jobname .mst}
+%level  '>'
+%actual '='
+%encap  '!'
+%quote  '~'
+%
+preamble  "\\clearpage\\begin{theindex}\\begin{small}\n"
+postamble "\n\n\\end{small}\\end{theindex}\n"
+%
+delim_0 "~\\dotfill~"
+delim_1 "~\\dotfill~"
+delim_2 "~\\dotfill~"
+%
+heading_prefix "{\\hspace{0pt plus 2fil}\\textbf{"
+heading_suffix "}\\hspace{0pt plus 1fil}}\\nopagebreak\n"
+headings_flag  1
+\end{filecontents}
+

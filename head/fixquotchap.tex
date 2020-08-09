@@ -1,0 +1,27 @@
+% Patch quotchap chapter style
+
+% Vertical skip below chapter title
+\renewcommand{\chapterheadendvskip}{\vspace{1.7\baselineskip}}
+
+% Same vertical spacing with and without chapter number
+\makeatletter
+\renewcommand{\@makechapterhead}[1]{\chapterheadstartvskip%
+  {\size@chapter{\sectfont\raggedleft
+      {\chapnumfont
+        %\ifnum \c@secnumdepth >\m@ne% <- always print chapter number
+        \if@mainmatter\thechapter%
+        \else\phantom{\thechapter}% <- do not print, just consume space
+        \fi%\fi
+        \par\nobreak}%
+      {\raggedleft\advance\leftmargin10em\interlinepenalty\@M #1\par}}
+    \nobreak\chapterheadendvskip}}
+\makeatother
+
+% Command to set chapter number color
+\newcommand{\qsetcncolor}[2][\empty]{%
+  \ifx#1\empty%
+    \colorlet{chaptergrey}{#2}
+  \else%
+    \definecolor{chaptergrey}{#1}{#2}
+  \fi}
+
